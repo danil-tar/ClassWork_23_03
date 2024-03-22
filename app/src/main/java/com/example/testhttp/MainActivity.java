@@ -1,4 +1,5 @@
 package com.example.testhttp;
+
 import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,14 +20,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+        Thread threadHttp = new Thread() {
+            public void run() {
+                testHttp();
+            }
+        };
 
         findViewById(R.id.getBtn).setOnClickListener(v -> {
-            testHttp();
+            threadHttp.start();
         });
 
-           }
+    }
 
     private void testHttp() {
         okhttp3.Request request = new okhttp3.Request.Builder()
